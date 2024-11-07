@@ -1,0 +1,93 @@
+% Theme choice:
+\usetheme{default}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{xeCJK} % 使用 xeCJK 包以支持中文字体
+\usepackage{tikz}
+\renewcommand{\familydefault}{\sfdefault} % 设置无衬线字体为默认字体
+%\usefonttheme{professionalfonts} % 使用 LaTeX 安装的专业字体
+%\usepackage{helvet} % 使用 Helvetica 字体
+\setbeamertemplate{navigation symbols}{}
+% 自定义颜色
+\definecolor{customblue}{RGB}{8, 81, 156}
+
+% 设置各部分颜色
+\setbeamercolor{title}{fg=customblue}
+\setbeamercolor{frametitle}{fg=customblue}
+\setbeamercolor{section in toc}{fg=customblue}
+\setbeamercolor{subsection in toc}{fg=customblue}
+\setbeamercolor{item}{fg=customblue}
+
+% 设置字体大小和样式
+\setbeamerfont{title}{series=\bfseries, size=\Large}
+\setbeamerfont{frametitle}{series=\bfseries, size=\Large}
+\setbeamerfont{author}{size=\scriptsize}
+\setbeamerfont{date}{size=\tiny}
+\setbeamerfont{subtitle}{size=\footnotesize}
+\setbeamerfont{footline}{size=\scriptsize}
+\setbeamerfont{block title}{series=\bfseries, size=\small}
+\setbeamerfont{block body}{size=\scriptsize}
+\usefonttheme{serif} % 使用衬线字体主题
+\usepackage{helvet} % 引入 Helvetica 字体
+\renewcommand{\familydefault}{\sfdefault} % 将文档的默认字体设为无衬线字体
+
+% 修改 itemize 项的形状为圆点
+\setbeamertemplate{itemize item}{\bullet}
+
+% 自定义 section 页面样式
+\newcommand{\sectionpagecustom}{
+    \begin{center}
+        \parbox{0.8\textwidth}{ % 设定整体宽度
+            \raggedright\usebeamerfont{section title}\insertsection\par % 左对齐标题
+            \vspace{0.2em} % 调整标题和横线之间的距离
+            \textcolor{customblue}{\rule{\linewidth}{0.5pt}} % 横线颜色和厚度
+        }
+    \end{center}
+}
+
+% 在目录中为每个 section 标题前添加符号并增加缩进
+\setbeamertemplate{section in toc}{\leavevmode\hspace{5em}\llap{\textbullet\hskip0.5em}\inserttocsection}
+
+% 应用自定义 section 页面模板
+\setbeamertemplate{section page}{}
+\addtobeamertemplate{section page}{\sectionpagecustom}{}
+
+% 自动在每个 section 开始时显示 section 页面
+\AtBeginSection{
+    \begin{frame}
+        \sectionpage
+    \end{frame}
+}
+
+% 设置页码从目录页开始
+\AtBeginDocument{
+    % 标题页（不显示页码）
+    {
+        \setbeamertemplate{footline}{} % 不显示页脚
+        \begin{frame}
+            \titlepage
+        \end{frame}
+    }
+
+    % 目录页（开始显示页码，且从1开始计数）
+    \setbeamertemplate{footline}{
+        \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex,leftskip=1em,rightskip=1em]{footline}
+            \hfill
+            \begin{tikzpicture}
+                \draw[fill=customblue, draw=customblue, text=white] circle (0.4cm) node {\tiny \insertframenumber{} / \inserttotalframenumber};
+            \end{tikzpicture}
+            \hspace{1em}
+        \end{beamercolorbox}
+    }
+    \setcounter{framenumber}{0} % 从目录页开始计数
+}
+% 自定义页脚，添加当前页码/总页码的圆圈
+\setbeamertemplate{footline}{
+    \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1ex,leftskip=1em,rightskip=1em]{footline}
+        \hfill
+        \begin{tikzpicture}
+            \draw[fill=customblue, draw=customblue, text=white] circle (0.3cm) node {\tiny \insertframenumber{} / \inserttotalframenumber};
+        \end{tikzpicture}
+        \hspace{1em}
+    \end{beamercolorbox}
+}
